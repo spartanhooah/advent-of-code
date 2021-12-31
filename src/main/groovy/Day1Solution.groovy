@@ -4,7 +4,7 @@ def secondWindow= []
 def thirdWindow = []
 def lineNum = 0
 
-new File("TestInput.txt").eachLine {
+new File("DepthInput.txt").eachLine {
     if (it.isInteger()) {
         handleLine(firstWindow, sums, it)
 
@@ -29,8 +29,18 @@ if (secondWindow.size() == 3) {
 }
 
 if (thirdWindow.size() == 3) {
-    sums << thirdWindow
+    sums << thirdWindow.sum()
 }
+
+def largerCount = 0
+
+for (def i = 0; i < sums.size() - 1; i++) {
+    if (sums[i] < sums[i + 1]) {
+        largerCount++
+    }
+}
+
+println largerCount
 
 private static void handleLine(ArrayList firstWindow, ArrayList sums, String line) {
     if (firstWindow.size() == 3) {
