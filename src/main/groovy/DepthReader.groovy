@@ -1,15 +1,42 @@
-def depths = []
+def sums = []
+def firstWindow = []
+def secondWindow= []
+def thirdWindow = []
+def lineNum = 0
 
-new File("DepthInput.txt").eachLine {
+new File("TestInput.txt").eachLine {
     if (it.isInteger()) {
-        def depth = it.toInteger()
-        depths << depth
+        handleLine(firstWindow, sums, it)
+
+        if (lineNum > 0) {
+            handleLine(secondWindow, sums, it)
+        }
+
+        if (lineNum > 1) {
+            handleLine(thirdWindow, sums, it)
+        }
     }
+
+    lineNum++
 }
 
-def j = 3
-def k = 4
+if (firstWindow.size() == 3) {
+    sums << firstWindow.sum()
+}
 
-for (def i = 2; i < depths.size(); i++) {
+if (secondWindow.size() == 3) {
+    sums << secondWindow.sum()
+}
 
+if (thirdWindow.size() == 3) {
+    sums << thirdWindow
+}
+
+private static void handleLine(ArrayList firstWindow, ArrayList sums, String line) {
+    if (firstWindow.size() == 3) {
+        sums << firstWindow.sum()
+        firstWindow.clear()
+    }
+
+    firstWindow << line.toInteger()
 }
