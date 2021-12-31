@@ -4,7 +4,7 @@ def secondWindow= []
 def thirdWindow = []
 def lineNum = 0
 
-new File("DepthInput.txt").eachLine {
+new File("Day1Input.txt").eachLine {
     if (it.isInteger()) {
         handleLine(firstWindow, sums, it)
 
