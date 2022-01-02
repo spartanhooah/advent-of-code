@@ -22,6 +22,7 @@ new File("Day4Input.txt").eachLine {
     }
 }
 
+// Part 1
 def anyWon = false
 
 for (int number : drawnNumbers) {
@@ -38,6 +39,22 @@ for (int number : drawnNumbers) {
 
             break
         }
+    }
+}
+
+// Part 2
+for (int number : drawnNumbers) {
+    boards*.markNumber(number)
+
+    def removedBoards = boards.findAll { board ->
+        board.hasWon()
+    }
+
+    boards.removeAll(removedBoards)
+
+    if (!boards) {
+        println removedBoards[0].total() * number
+        break
     }
 }
 
