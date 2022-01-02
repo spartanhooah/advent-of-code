@@ -46,9 +46,7 @@ for (int number : drawnNumbers) {
 for (int number : drawnNumbers) {
     boards*.markNumber(number)
 
-    def removedBoards = boards.findAll { board ->
-        board.hasWon()
-    }
+    def removedBoards = boards.findAll { board -> board.hasWon() }
 
     boards.removeAll(removedBoards)
 
@@ -85,15 +83,11 @@ class Board {
         def columns = fillColumns()
 
         def winningRow = rows.any { row ->
-            row.every { space ->
-                space.marked
-            }
+            row.every { space -> space.marked }
         }
 
         def winningColumn = columns.any { column ->
-            column.every { space ->
-                space.marked
-            }
+            column.every { space -> space.marked }
         }
 
         return winningRow || winningColumn
@@ -116,8 +110,7 @@ class Board {
     int total() {
         def total = 0
 
-        rows.each { row ->
-            total += row.findAll { !it.marked }.inject(0) { acc, val -> acc + val.number }
+        rows.each { row -> total += row.findAll { !it.marked }.inject(0) { acc, space -> acc + space.number }
         }
 
         return total
