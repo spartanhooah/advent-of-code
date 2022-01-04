@@ -5,7 +5,7 @@ def lines = []
 def maxX = 0
 def maxY = 0
 
-new File("TestInput.txt").eachLine {
+new File("Day5Input.txt").eachLine {
     if (it.length() > 0) {
         it.split(" -> ").collect {
             it.split(",").collect { parseInt(it) }
@@ -26,26 +26,10 @@ new File("TestInput.txt").eachLine {
 def diagram = new int[maxY + 1][maxX + 1]
 
 lines.each { line ->
-    if (line.a.x == line.b.x) {
-        if (line.b.y > line.a.y) {
-            for (int i : line.a.y..line.b.y) {
-                diagram[i][line.a.x]++
-            }
-        } else {
-            for (int i : line.b.y..line.a.y) {
-                diagram[i][line.a.x]++
-            }
-        }
-    } else if (line.a.y == line.b.y) {
-        if (line.b.x > line.a.x) {
-            for (int i : line.a.x..line.b.x) {
-                diagram[line.a.y][i]++
-            }
-        } else {
-            for (int i : line.b.x..line.a.x) {
-                diagram[line.a.y][i]++
-            }
-        }
+    def points = line.generatePoints()
+
+    points.each { point ->
+        diagram[point.y][point.x]++
     }
 }
 
@@ -53,7 +37,7 @@ def total = 0
 
 for (int i : 0..maxY) {
     for (int j : 0..maxX) {
-        print diagram[i][j] == 0 ? "." : "${diagram[i][j]}"
+//        print diagram[i][j] == 0 ? "." : "${diagram[i][j]}"
         if (diagram[i][j] > 1) {
             total++
         }
@@ -66,6 +50,29 @@ println total
 class Line {
     Point a
     Point b
+
+    def generatePoints() {
+        def containedPoints = []
+
+        def xs = a.x..b.x
+        def ys = a.y..b.y
+
+        if (xs.size() == 1) { // vertical line
+            ys.each {
+                containedPoints << new Point(x: xs[0], y: it)
+            }
+        } else if (ys.size() == 1) { // horizontal line
+            xs.each {
+                containedPoints << new Point(x: it, y: ys[0])
+            }
+        } else { // diagonal line
+            (0..xs.size() - 1).each {
+                containedPoints << new Point(x: xs[it], y: ys[it])
+            }
+        }
+
+        return containedPoints
+    }
 }
 
 class Point {
