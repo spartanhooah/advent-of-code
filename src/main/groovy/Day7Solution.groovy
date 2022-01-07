@@ -14,14 +14,16 @@ def fuelUsed = [:]
 //println fuelUsed.values().min()
 
 // Part 2
+def fuelPerDistance = [:]
+
 (positions.min()..positions.max()).each {
-    fuelUsed[it] = positions.inject(0) { acc, val -> acc + calculateFuelUsed(it, val) }
+    fuelPerDistance[it] = (0..it).inject(0) { acc, val -> acc + val }
+}
+
+(positions.min()..positions.max()).each {
+    fuelUsed[it] = positions.inject(0) { acc, val ->
+        acc + fuelPerDistance[Math.abs(it - val)]
+    }
 }
 
 println fuelUsed.values().min()
-
-def calculateFuelUsed(start, end) {
-    def distance = Math.abs(start - end)
-
-    (0..distance).inject(0) { acc, val -> acc + val }
-}
